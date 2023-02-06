@@ -1,6 +1,4 @@
 from aiohttp import web
-import sqlite3
-import json
 from news import News
 
 
@@ -10,7 +8,7 @@ class Handlers:
     """
 
     @staticmethod
-    async def news(request):
+    async def news(request: web.Request) -> web.Response:
         """
         Обработчик для Get "/"
         :param request:
@@ -18,11 +16,10 @@ class Handlers:
         """
         model = News()
         news_list = model.get_all()
-        result_json = json.dumps({'news': news_list, 'news_count': len(news_list)}, indent=4)
-        return web.Response(text=result_json, content_type='application/json')
+        return web.json_response({'news': news_list, 'news_count': len(news_list)})
 
     @staticmethod
-    async def get_news_by_id(request):
+    async def get_news_by_id(request: web.Request) -> web.Response:
         """
         Обработчик для запроса новости по id
         :param request:
@@ -31,8 +28,7 @@ class Handlers:
         news_id = request.match_info['id']
         model = News()
         try:
-            item = model.get_by_id(news_id)
-            result_json = json.dumps(dict(item), indent=4)
-            return web.Response(text=result_json, content_type='application/json')
+            item = model.get_by_id(int(news_id))
+            return web.json_response(item)
         except ValueError:
             raise web.HTTPNotFound()

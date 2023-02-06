@@ -1,7 +1,8 @@
+from aiohttp import web
 from handlers import Handlers
 
 
-def setup_routes(app):
+def setup_routes(app: web.Application):
     """
     Настройки роутинга
     :param app:

@@ -7,7 +7,7 @@ class News:
     Модель новостей
     """
 
-    def get_all(self):
+    def get_all(self) -> list:
         """
         Список новостей
         :return:
@@ -25,7 +25,7 @@ class News:
             data_list = [dict(idx) for idx in news.fetchall()]
             return data_list
 
-    def get_by_id(self, news_id):
+    def get_by_id(self, news_id: int) -> dict:
         """
         Получить новость по id
         :param news_id:
